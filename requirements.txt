@@ -1,0 +1,10 @@
+# Install these with:  pip install -r requirements.txt
+
+langchain
+langchain-community
+langchain-groq        # the model provider
+langgraph             # runs the agent loop and remembers the conversation
+sqlalchemy            # connects to the database
+pymysql               # the MySQL driver
+cryptography          # pymysql needs this to log in
+python-dotenv         # reads the .env file

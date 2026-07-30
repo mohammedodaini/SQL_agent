@@ -1,0 +1,67 @@
+[
+  {
+    "id": "q01",
+    "question": "How many tracks are in the database?",
+    "gold_sql": "SELECT COUNT(*) FROM Track"
+  },
+  {
+    "id": "q02",
+    "question": "What is the name of the longest track?",
+    "gold_sql": "SELECT Name FROM Track ORDER BY Milliseconds DESC LIMIT 1"
+  },
+  {
+    "id": "q03",
+    "question": "How many tracks have no composer listed?",
+    "gold_sql": "SELECT COUNT(*) FROM Track WHERE Composer IS NULL"
+  },
+  {
+    "id": "q04",
+    "question": "How many different countries do customers come from?",
+    "gold_sql": "SELECT COUNT(DISTINCT Country) FROM Customer"
+  },
+  {
+    "id": "q05",
+    "question": "How many albums does Iron Maiden have?",
+    "gold_sql": "SELECT COUNT(*) FROM Album al JOIN Artist ar ON al.ArtistId = ar.ArtistId WHERE ar.Name = 'Iron Maiden'"
+  },
+  {
+    "id": "q06",
+    "question": "What is the average track length in minutes?",
+    "gold_sql": "SELECT ROUND(AVG(Milliseconds) / 60000, 2) FROM Track"
+  },
+  {
+    "id": "q07",
+    "question": "Which country has the highest total sales, and how much?",
+    "gold_sql": "SELECT c.Country, ROUND(SUM(i.Total), 2) FROM Invoice i JOIN Customer c ON i.CustomerId = c.CustomerId GROUP BY c.Country ORDER BY SUM(i.Total) DESC LIMIT 1"
+  },
+  {
+    "id": "q08",
+    "question": "What are the top 5 countries by total sales?",
+    "gold_sql": "SELECT c.Country FROM Invoice i JOIN Customer c ON i.CustomerId = c.CustomerId GROUP BY c.Country ORDER BY SUM(i.Total) DESC LIMIT 5"
+  },
+  {
+    "id": "q09",
+    "question": "What were the total sales in 2024?",
+    "gold_sql": "SELECT ROUND(SUM(Total), 2) FROM Invoice WHERE YEAR(InvoiceDate) = 2024"
+  },
+  {
+    "id": "q10",
+    "question": "Which artist has the second most tracks?",
+    "gold_sql": "SELECT ar.Name FROM Artist ar JOIN Album al ON ar.ArtistId = al.ArtistId JOIN Track t ON al.AlbumId = t.AlbumId GROUP BY ar.ArtistId, ar.Name ORDER BY COUNT(*) DESC LIMIT 1 OFFSET 1"
+  },
+  {
+    "id": "q11",
+    "question": "How many employees report directly to Nancy Edwards?",
+    "gold_sql": "SELECT COUNT(*) FROM Employee e JOIN Employee m ON e.ReportsTo = m.EmployeeId WHERE m.FirstName = 'Nancy' AND m.LastName = 'Edwards'"
+  },
+  {
+    "id": "q12",
+    "question": "Which genre generates the most revenue?",
+    "gold_sql": "SELECT g.Name FROM Genre g JOIN Track t ON g.GenreId = t.GenreId JOIN InvoiceLine il ON t.TrackId = il.TrackId GROUP BY g.GenreId, g.Name ORDER BY SUM(il.UnitPrice * il.Quantity) DESC LIMIT 1"
+  },
+  {
+    "id": "q13",
+    "question": "What is the most expensive album, by the total price of its tracks?",
+    "gold_sql": "SELECT al.Title FROM Album al JOIN Track t ON al.AlbumId = t.AlbumId GROUP BY al.AlbumId, al.Title ORDER BY SUM(t.UnitPrice) DESC LIMIT 1"
+  }
+]

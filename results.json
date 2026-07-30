@@ -1,0 +1,106 @@
+[
+  {
+    "id": "q01",
+    "question": "How many tracks are in the database?",
+    "agent_sql": "SELECT COUNT(*) FROM Track",
+    "answer": "There are 3503 tracks in the database.",
+    "correct": true,
+    "skipped": false
+  },
+  {
+    "id": "q02",
+    "question": "What is the name of the longest track?",
+    "agent_sql": "SELECT name FROM Track ORDER BY milliseconds DESC LIMIT 1",
+    "answer": "The longest track is \"Occupation / Precipice\".",
+    "correct": true,
+    "skipped": false
+  },
+  {
+    "id": "q03",
+    "question": "How many tracks have no composer listed?",
+    "agent_sql": "SELECT COUNT(*) FROM Track WHERE Composer IS NULL",
+    "answer": "There are 977 tracks that have no composer listed.",
+    "correct": true,
+    "skipped": false
+  },
+  {
+    "id": "q04",
+    "question": "How many different countries do customers come from?",
+    "agent_sql": "SELECT COUNT(DISTINCT country) FROM Customer",
+    "answer": "There are 24 different countries that customers come from.",
+    "correct": true,
+    "skipped": false
+  },
+  {
+    "id": "q05",
+    "question": "How many albums does Iron Maiden have?",
+    "agent_sql": "SELECT COUNT(*) FROM ALBUM WHERE ARTISTID = (SELECT ARTISTID FROM ARTIST WHERE NAME = 'Iron Maiden')",
+    "answer": "Iron Maiden has 21 albums.",
+    "correct": true,
+    "skipped": false
+  },
+  {
+    "id": "q06",
+    "question": "What is the average track length in minutes?",
+    "agent_sql": "SELECT AVG(Milliseconds) / 60000 FROM TRACK;",
+    "answer": "The average track length in minutes is approximately 4.27 minutes.",
+    "correct": false,
+    "skipped": false
+  },
+  {
+    "id": "q07",
+    "question": "Which country has the highest total sales, and how much?",
+    "agent_sql": "SELECT i.BillingCountry, SUM(i.Total) FROM Invoice i GROUP BY i.BillingCountry ORDER BY SUM(i.Total) DESC LIMIT 1",
+    "answer": "The country with the highest total sales is the USA, with a total of $523.06.",
+    "correct": true,
+    "skipped": false
+  },
+  {
+    "id": "q08",
+    "question": "What are the top 5 countries by total sales?",
+    "agent_sql": "SELECT c.Country, SUM(i.Total) as total_sales FROM Customer c JOIN Invoice i ON c.CustomerId = i.CustomerId GROUP BY c.Country ORDER BY total_sales DESC LIMIT 5",
+    "answer": "The top 5 countries by total sales are:\n\n1. USA - $523.06\n2. Canada - $303.96\n3. France - $195.10\n4. Brazil - $190.10\n5. Germany - $156.48\n\nThese numbers are based on the total sales from the Invoice table, grouped by the Country column in the Customer table.",
+    "correct": true,
+    "skipped": false
+  },
+  {
+    "id": "q09",
+    "question": "What were the total sales in 2024?",
+    "agent_sql": "SELECT SUM(Total) FROM Invoice WHERE YEAR(InvoiceDate) = 2024",
+    "answer": "The total sales in 2024 were $477.53.",
+    "correct": true,
+    "skipped": false
+  },
+  {
+    "id": "q10",
+    "question": "Which artist has the second most tracks?",
+    "agent_sql": "SELECT Artist.name, COUNT(Track.TrackId) as count FROM Artist JOIN Album ON Artist.ArtistId = Album.ArtistId JOIN Track ON Album.AlbumId = Track.AlbumId GROUP BY Artist.name ORDER BY count DESC LIMIT 1 OFFSET 1",
+    "answer": "The artist with the second most tracks is U2, with 135 tracks.",
+    "correct": true,
+    "skipped": false
+  },
+  {
+    "id": "q11",
+    "question": "How many employees report directly to Nancy Edwards?",
+    "agent_sql": "SELECT COUNT(*) FROM Employee WHERE ReportsTo = (SELECT EmployeeId FROM Employee WHERE LastName = 'Edwards' AND FirstName = 'Nancy')",
+    "answer": "There are 3 employees who report directly to Nancy Edwards.",
+    "correct": true,
+    "skipped": false
+  },
+  {
+    "id": "q12",
+    "question": "Which genre generates the most revenue?",
+    "agent_sql": "SELECT g.Name, SUM(il.UnitPrice) as total_revenue FROM Genre g JOIN Track t ON g.GenreId = t.GenreId JOIN InvoiceLine il ON t.TrackId = il.TrackId GROUP BY g.Name ORDER BY total_revenue DESC LIMIT 1",
+    "answer": "The genre that generates the most revenue is Rock, with a total revenue of $826.65.",
+    "correct": true,
+    "skipped": false
+  },
+  {
+    "id": "q13",
+    "question": "What is the most expensive album, by the total price of its tracks?",
+    "agent_sql": "SELECT Album.Title, SUM(Track.UnitPrice) FROM Album JOIN Track ON Album.AlbumId = Track.AlbumId GROUP BY Album.AlbumId, Album.Title ORDER BY SUM(Track.UnitPrice) DESC LIMIT 1",
+    "answer": "The most expensive album by the total price of its tracks is 'Greatest Hits' with a total price of $56.43.",
+    "correct": true,
+    "skipped": false
+  }
+]

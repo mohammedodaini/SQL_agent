@@ -1,0 +1,22 @@
+# Secrets - never commit. Use .env.example as the template instead.
+.env
+
+# Virtual environments
+.my_env/
+.venv/
+venv/
+
+# Charts generated at runtime
+charts/
+
+# Evaluation runs. results.json is committed on purpose, as the record of the
+# last scored run. Anything else the eval writes is throwaway.
+results-*.json
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# macOS
+.DS_Store
